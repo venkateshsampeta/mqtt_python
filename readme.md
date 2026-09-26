@@ -16,7 +16,7 @@ An ESP32 or other hardware device is **not required** for this test. The complet
 
 ## 🏗️ System Architecture
 
-```text
+ 
               Python Publisher
              (IoT Device)
                    |
@@ -28,11 +28,11 @@ An ESP32 or other hardware device is **not required** for this test. The complet
                    ↓
             Python Subscriber
           (Cloud/Application)
-```
+ 
 
 ### Communication Flow
 
-```text
+ 
 Publisher
     ↓
 Publish MQTT Message
@@ -44,7 +44,7 @@ Route Message Using Topic
 Subscriber
     ↓
 Receive and Process Message
-```
+ 
 
 ---
 
@@ -82,15 +82,15 @@ Python 3.x is required.
 
 Check the installed Python version:
 
-```bash
+ bash
 python --version
-```
+ 
 
 or:
 
-```bash
+ bash
 python3 --version
-```
+ 
 
 ---
 
@@ -98,15 +98,15 @@ python3 --version
 
 Install the Python MQTT client library:
 
-```bash
+ bash
 pip install paho-mqtt
-```
+ 
 
 Verify the installation:
 
-```bash
+ bash
 pip show paho-mqtt
-```
+ 
 
 ---
 
@@ -118,13 +118,13 @@ It connects to the MQTT broker and publishes messages to a specific topic.
 
 Example:
 
-```text
+ 
 Topic:
 venkatesh/test/mqtt
 
 Payload:
 Hello MQTT 1
-```
+ 
 
 The publisher sends messages periodically.
 
@@ -140,10 +140,10 @@ When a message is published to that topic, the subscriber receives it.
 
 Example:
 
-```text
+ 
 Topic   : venkatesh/test/mqtt
 Payload : Hello MQTT 1
-```
+ 
 
 ---
 
@@ -155,25 +155,25 @@ MQTT uses a **publish/subscribe architecture**.
 
 The publisher sends a message to a topic.
 
-```text
+ 
 Publisher
     |
     | Publish
     ↓
 MQTT Broker
-```
+ 
 
 ### Subscriber
 
 The subscriber subscribes to a topic.
 
-```text
+ 
 MQTT Broker
     |
     | Message
     ↓
 Subscriber
-```
+ 
 
 The publisher and subscriber do not need to communicate directly.
 
@@ -187,21 +187,21 @@ A topic is used to identify where the message should be published.
 
 Example:
 
-```text
+ 
 venkatesh/test/mqtt
-```
+ 
 
 Publisher:
 
-```python
+ python
 client.publish("venkatesh/test/mqtt", "Hello MQTT")
-```
+ 
 
 Subscriber:
 
-```python
+ python
 client.subscribe("venkatesh/test/mqtt")
-```
+ 
 
 Both must use the same topic to communicate.
 
@@ -213,21 +213,21 @@ The payload is the actual data being transmitted.
 
 Example:
 
-```text
+ 
 Hello MQTT
-```
+ 
 
 For an IoT application, the payload can contain structured data.
 
 Example JSON:
 
-```json
+ json
 {
     "voltage": 230,
     "current": 1.5,
     "uv_status": "ON"
 }
-```
+ 
 
 This type of payload can be used to simulate an IoT device sending sensor/device information to the cloud.
 
@@ -237,20 +237,20 @@ This type of payload can be used to simulate an IoT device sending sensor/device
 
 MQTT itself is a messaging protocol. Secure MQTT communication can be implemented using **TLS**.
 
-```text
+ 
 MQTT + TLS = Secure MQTT / MQTTS
-```
+ 
 
 For example:
 
-```text
+ 
 Python Device
       |
       | MQTTS
       | TLS encrypted
       ↓
 MQTT Broker
-```
+ 
 
 TLS can provide:
 
@@ -273,9 +273,9 @@ It defines the message delivery guarantee.
 
 ### QoS 0 — At Most Once
 
-```text
+ 
 Publisher → Broker
-```
+ 
 
 No acknowledgement is required.
 
@@ -283,11 +283,11 @@ The message may be lost.
 
 ### QoS 1 — At Least Once
 
-```text
+ 
 Publisher → Broker
              ↓
             PUBACK
-```
+ 
 
 The message is delivered at least once, but duplicates are possible.
 
@@ -313,16 +313,16 @@ For this project, **QoS 1** can be used to demonstrate reliable message delivery
 
 Open Terminal 1:
 
-```bash
+ bash
 python subscriber.py
-```
+ 
 
 Expected output:
 
-```text
+ 
 Connected to MQTT broker
 Subscribed to: venkatesh/test/mqtt
-```
+ 
 
 Keep the subscriber running.
 
@@ -332,19 +332,19 @@ Keep the subscriber running.
 
 Open Terminal 2:
 
-```bash
+ bash
 python publisher.py
-```
+ 
 
 Expected output:
 
-```text
+ 
 Published: Hello MQTT 1
 Published: Hello MQTT 2
 Published: Hello MQTT 3
 Published: Hello MQTT 4
 Published: Hello MQTT 5
-```
+ 
 
 ---
 
@@ -352,7 +352,7 @@ Published: Hello MQTT 5
 
 The subscriber should display:
 
-```text
+ 
 Message received!
 Topic   : venkatesh/test/mqtt
 Payload : Hello MQTT 1
@@ -364,7 +364,7 @@ Payload : Hello MQTT 2
 Message received!
 Topic   : venkatesh/test/mqtt
 Payload : Hello MQTT 3
-```
+ 
 
 If the publisher messages are received by the subscriber, the MQTT communication is working correctly.
 
@@ -376,7 +376,7 @@ Instead of sending simple text, the publisher can simulate data from an IoT devi
 
 Example:
 
-```json
+ json
 {
     "device_id": "UV_PURIFIER_01",
     "voltage": 230.0,
@@ -384,13 +384,13 @@ Example:
     "uv_status": "ON",
     "device_status": "RUNNING"
 }
-```
+ 
 
 The Python publisher can periodically publish this data.
 
 This simulates:
 
-```text
+ 
 IoT Device
     ↓
 Sensor Data
@@ -400,7 +400,7 @@ MQTT
 MQTT Broker
     ↓
 Cloud Application
-```
+ 
 
 ---
 
@@ -410,7 +410,7 @@ This MQTT test can be used as a software simulation of the communication archite
 
 Example architecture:
 
-```text
+ 
                  UV AIR PURIFIER
                        |
                     Wi-Fi
@@ -422,7 +422,7 @@ Example architecture:
                        |
                        ↓
                 Cloud Platform
-```
+ 
 
 The device can publish:
 
@@ -439,7 +439,7 @@ The cloud can also publish commands to the device using MQTT topics.
 
 # 🔁 Device-to-Cloud Communication
 
-```text
+ 
 Device
    |
    | Publish
@@ -448,24 +448,24 @@ MQTT Broker
    |
    ↓
 Cloud Application
-```
+ 
 
 Example:
 
-```text
+ 
 Topic:
 uv_purifier/device01/status
-```
+ 
 
 Payload:
 
-```json
+ json
 {
     "voltage": 230,
     "current": 1.5,
     "status": "RUNNING"
 }
-```
+ 
 
 ---
 
@@ -473,7 +473,7 @@ Payload:
 
 MQTT also supports communication in the opposite direction.
 
-```text
+ 
 Cloud Application
        |
        | Publish command
@@ -482,22 +482,22 @@ Cloud Application
        |
        ↓
       Device
-```
+ 
 
 Example:
 
-```text
+ 
 Topic:
 uv_purifier/device01/command
-```
+ 
 
 Payload:
 
-```json
+ json
 {
     "command": "START_UV"
 }
-```
+ 
 
 The device subscribes to the command topic and processes the received command.
 
@@ -517,10 +517,10 @@ Check:
 
 Example:
 
-```text
+ 
 Broker: test.mosquitto.org
 Port: 1883
-```
+ 
 
 ---
 
